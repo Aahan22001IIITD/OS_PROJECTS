@@ -1,12 +1,10 @@
 ### STEPS TO FOLLOW:
 
 1. **Compile the Code**: 
-gcc scheduler.c -o scheduler -lpthread
+```gcc scheduler.c -o scheduler -lpthread```
 
 2. **Run the Program**: 
-After successfully compiling the code, you can run the executable. Since this program requires command-line arguments (number of CPUs and time slice), you need to provide them when running the program. For example, to run the program with 4 CPUs and a time slice of 5:
-
-./scheduler 4 5
+After successfully compiling the code, you can run the executable. Since this program requires command-line arguments (number of CPUs and time slice), you need to provide them when running the program. For example, to run the program with 4 CPUs and a time slice of 5:     ```./scheduler 4 5```
 
 
 3. **Interacting with the Program**: 
