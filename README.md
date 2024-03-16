@@ -19,5 +19,5 @@ You can exit the program by sending a SIGINT signal (Ctrl+C) from the terminal w
 - Make sure you have the necessary permissions to compile and execute the code. 
 - Additionally, ensure that you have a C compiler installed on your system (such as gcc) and that you're familiar with using the terminal or command prompt.
 
-  # COLLABORATOR : ```KARTIKEYA2022241``` (github acc)
+  ## COLLABORATOR : ```KARTIKEYA2022241``` (github acc)
   
