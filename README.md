@@ -36,11 +36,10 @@ The `launch.c` is responsible for:
 - Only one submission per group is allowed.
 
 ## Reference Materials
+![image](https://github.com/Aahan22001IIITD/PROJECTS/assets/125281835/c72bdffe-6486-448e-a228-e3b3178e3dff)
 - [ELF File Format Documentation](https://man7.org/linux/man-pages/man5/elf.5.html)
 
 ## NOTE
-![image](https://github.com/Aahan22001IIITD/PROJECTS/assets/125281835/c72bdffe-6486-448e-a228-e3b3178e3dff)
-
 
 ### Hardware requirements:
 - You will require a machine having any Operating System that supports Unix API. You will not be able to do this assignment on MacOS. You can either have a dual boot system having any Linux OS (e.g., Ubuntu), or install a WSL.
