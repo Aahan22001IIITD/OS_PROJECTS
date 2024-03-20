@@ -9,7 +9,7 @@
 - C compiler and GNU make.
 - You must do version controlling of all your code using GitHub. You should only use a PRIVATE repository. If you are found to be using a PUBLIC access repository, then it will be considered plagiarism. NOTE that TAs will check your GitHub repository during the demo.
 
-## Assignment Details
+## SimpleShell Details
 
 ### Summary
 Implementing a SimpleShell that waits for user input, executes commands provided in the user input, and then repeats until terminated using ctrl-c. We are not implementing the individual Unix commands that will execute on your SimpleShell.
