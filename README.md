@@ -24,13 +24,9 @@ Please ensure to follow the guidelines outlined in the provided documentation fo
 
 ### Contributors
 
-- [Your Name]
-- [Contributor 2 Name]
-- [Contributor 3 Name]
+- Aahan 
+- Kartikeya
 
-### License
-
-This project is licensed under the [License Name] License - see the [LICENSE.md](LICENSE.md) file for details.
 
 ### Acknowledgments
 
