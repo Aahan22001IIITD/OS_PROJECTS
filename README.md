@@ -9,7 +9,7 @@ This project aims to implement a SimpleLoader for loading an ELF 32-bit executab
 2. Unzip the zip folder
 3. open that folder in a code editor (preferably VS CODE)
 4. run the ```make``` command
-#Note
+# Note
 Individual directories have also been uploaded you can download individual zip and see each directory.
 
 ## Directories and Files
