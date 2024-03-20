@@ -4,6 +4,12 @@
 
 This project aims to implement a SimpleLoader for loading an ELF 32-bit executable in plain C without using any library APIs available for manipulating ELF files. The SimpleLoader compiles to a shared library (`lib_simpleloader.so`) that can be used to load and execute the executable using a helper program.
 
+##Usage
+1. Download the ```files.zip``` from the repo 
+2. Unzip the zip folder
+3. open that folder in a code editor (preferably VS CODE)
+4. run the ```make``` command
+
 ## Directories and Files
 
 - Each folder contains a Makefile to compile the C file present in that directory.
