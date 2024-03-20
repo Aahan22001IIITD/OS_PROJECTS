@@ -30,8 +30,6 @@ Please ensure to follow the guidelines outlined in the provided documentation fo
 
 ### Acknowledgments
 
-- [Acknowledgment 1]
-- [Acknowledgment 2]
-- [Acknowledgment 3]
+- Mr Sujay Deb for guiding us throughout the project.
 
 Feel free to extend or modify the README file to include additional information or specific instructions as needed for your project.
