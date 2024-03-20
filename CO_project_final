@@ -1,0 +1,685 @@
+import sys
+def decimal_to_binary1(num):
+    lis=list()
+    s=''
+    for i in num:
+        if i=='.':
+            lis.append(s)
+            s='.'
+        else:
+            s+=i
+    lis.append(s)
+    left=int(lis[0])
+    right=lis[1]
+    left = bin(left)[2:]
+    s=''
+    ll='.'
+    lut=list()
+    for i in range(5):
+        right=float(right)*2
+        right=str(right)
+        lut=right.split(".")
+        rr=lut[0]
+        ll+=lut[1]
+        s+=rr
+        right=ll
+        ll='.'
+    return (str(left)+'.'+s)
+def decimal_to_binary(a) :
+    power=0
+    sum=0
+    a=int(a)
+    b=0
+    while ((a)>0) :
+        b=a%2
+        sum+=b*(10**(power));
+        power+=1;
+        a=a//2;
+    return sum
+list_instruction_code=['0000000','0000001','0000010','0000011','0000100','0000101','0000110','0000111','0001000','0001001','0001010','0001011','0001100','0001101','0001110','0001111','0010000','0010001','0010010','0010011','0010100','0010101','0010110','0010111','0011000','0011001','0011010','0011011','0011100','0011101','0011110','0011111','0100000','0100001','0100010','0100011','0100100','0100101','0100110','0100111','0101000','0101001','0101010','0101011','0101100','0101101','0101110','0101111','0110000','0110001','0110010','0110011','0110100','0110101','0110110','0110111','0111000','0111001','0111010','0111011','0111100','0111101','0111110','0111111','1000000','1000001','1000010','1000011','1000100','1000101','1000110','1000111','1001000','1001001','1001010','1001011','1001100','1001101','1001110','1001111','1010000','1010001','1010010','1010011','1010100','1010101','1010110','1010111','1011000','1011001','1011010','1011011','1011100','1011101','1011110','1011111','1100000','1100001','1100010','1100011','1100100','1100101','1100110','1100111','1101000','1101001','1101010','1101011','1101100','1101101','1101110','1101111','1110000','1110001','1110010','1110011','1110100','1110101','1110110','1110111','1111000','1111001','1111010','1111011','1111100','1111101','1111110','1111111']
+count_instruction_code=0
+list_assembly_code=[]
+strr=''
+op_code=['00000','00001','00010','00011','00100','00101','00110','00111','01000','01001','01010','01011','01100','01101','01110','01111','11100','11101','11111','11010','10000','10001','10010']
+registers=dict()
+registers['R0']=[[0]*16,'000']
+registers['R1']=[[0]*16,'001']
+registers['R2']=[[0]*16,'010']
+registers['R3']=[[0]*16,'011']
+registers['R4']=[[0]*16,'100']
+registers['R5']=[[0]*16,'101']  
+registers['R6']=[[0]*16,'110']
+registers['FLAG']=[[0]*16,'111']
+mem_addr=[0]*16
+listtt=list()
+list_operations=['add','sub','mov','ld','st','mul','div','rs','ls','xor','or','and','not','cmp','jmp','jlt','jgt','je','hlt']
+count_number_of_variables=0
+list_of_variables=dict()
+f=open("test_file.txt",'r')
+flag1=True
+t=list()
+count_instruction_code_memory=0
+list_flag=dict()
+code_variables=dict()
+flag=False
+global store
+global idx
+lines=0
+countu=0
+list_labels=dict()
+countuu=0
+for i in f:
+    try:
+        t.append(i.split())
+        if (t[-1][0]!='var'):
+
+            countu+=1
+    except:
+        pass
+for j in t:
+    if j==[]:
+        t.remove(j)
+lust=dict()
+for i in t:
+    try:
+        if i[0][-1]==':':
+            listtt.append(i[0][:-1])
+    except:
+        pass
+for i in t:
+    if i[0]=='var': 
+        countuu-=1
+    try:
+        if i[0][-1]==':':
+            lust[i[0][:-1]]=list_instruction_code[countuu]
+    except:
+        pass
+    countuu+=1
+for i in t:
+        if i==[]:
+            continue
+        if flag==True:
+            print(f"line{lines}:Can't execute lines after hlt")
+            lines+=1
+            continue
+        lines+=1
+        try:
+            b=i[1]
+            a=1
+        except IndexError:
+            a=0
+        try:
+            if i[0][-1]==':':
+                a=1
+            else:
+                a=0
+        except IndexError:
+            print("error")
+        if i[0]!='var' and flag1==True:
+            flag1=False
+        if flag1==False and i[0]=='var':
+            print(f"line{lines}:Variables must be declared at the very beginning")
+            continue
+        if i==[] or i=='\n' or i=='\t' or i==' ':
+            continue
+        elif i[0]=='var' or i[a]=='var':
+            if i[0]=='var':
+                count=0
+            else :
+                count=1
+            try:
+                name1=i[1+count]
+            except IndexError:
+                print("invalid statement")
+            if i[1] in registers:
+                print("cannot enter a register")
+            code_variables[name1]=list_instruction_code[countu]
+            count_number_of_variables+=1
+            countu+=1
+            continue
+        elif i[0]=='add' or i[a]=='add':
+            if i[0]=='add':
+                count=0
+            else :
+                count=1
+            try:
+                name1=i[1+count]
+                name2=i[2+count]
+                name3=i[3+count]
+                a=registers[name1][1]
+                b=registers[name2][1]
+                c=registers[name3][1]
+            except IndexError:
+                print(f"line{lines} : invalid statement add must contain 3 arguments line{lines}")
+                continue
+            if name1  not in registers or name2  not in registers or name3  not in registers:
+                print("invalid register")
+                continue
+            strr+=op_code[0]
+            strr+='00'
+            strr+=registers[name1][1]
+            strr+=registers[name2][1]
+            strr+=registers[name3][1]
+            list_assembly_code.append(strr)
+            strr=''
+            continue
+        elif i[0]=='st' or i[a]=='st':
+            if i[0]=='st':
+                count=0
+            else :
+                count=1
+            try:
+                name1=i[1+count]
+                name2=i[2+count]
+            except IndexError:
+                print("invalid statement")
+            if i[1+count] not in registers:
+                print("invalid register")
+            if i[2+count] not in code_variables:
+                print(f"(line{lines}:{i[2+count]} variable not defined)")
+                continue
+            name1=i[1+count]
+            name2=i[2+count]
+            strr+=op_code[5]
+            strr+='0'
+            strr+=registers[name1][1]
+            if i[2+count] in code_variables:
+                strr+=code_variables[name2]
+            list_assembly_code.append(strr)
+            strr=''
+            continue
+        elif i[0]=='mov' or i[a]=='mov':
+            if i[0]=='mov':
+                count=0
+            else :
+                count=1
+            try:
+                name1=i[1+count]
+                name2=i[2+count]
+            except IndexError:
+                print("invalid statement")
+            if i[2+count] in registers or i[2+count] in code_variables:
+                name1=i[1+count]
+                name2=i[2+count]
+                if name1 not in registers and name2 not in registers:
+                    print("invalid register do not exists")
+                count_instruction_code+=1
+                strr+=op_code[3]
+                strr+='00000'
+                strr+=registers[name1][1]
+                strr+=registers[name2][1]
+                list_assembly_code.append(strr)
+                strr=''
+                continue
+            name=i[1+count]
+            try:
+                a=int(i[2+count][1:])
+            except:
+                print(f"line{lines} : {i[2+count]} is not a defined variable")
+                continue
+            if int(i[2+count][1:])>127 or int(i[2+count][1:])<0 :
+                print("invalid value")
+            if i[2+count][0]!='$':
+                print(f"line{lines}:{i[2+count]} not defined")
+                continue
+            count_instruction_code+=1
+            strr+=op_code[2]
+            strr+='0'
+            strr+=registers[name][1]
+            a=str(decimal_to_binary(i[2+count][1:]))
+            count_reg=9
+            for i in range(7-len(a)):
+                registers[name][0][count_reg]=0
+                count_reg+=1
+                strr+='0'
+            strr+=a
+            list_assembly_code.append(strr)
+            strr=''
+            registers[name][0][count_reg:]=(a[0:])
+            continue
+        elif i[0]=='mul' or i[a]=='mul':
+            if i[0]=='mul':
+                count=0
+            else :
+                count=1
+            try:
+                name1=i[1+count]
+                name2=i[2+count]
+                name3=i[3+count]
+            except IndexError:
+                print("invalid statement")
+                #quit()
+            name1=i[1+count]
+            name2=i[2+count]
+            name3=i[3+count]
+            if name1 not in registers or name2 not in registers or name3 not in registers:
+                print("registers do not exists")
+            count_instruction_code+=1
+            strr+=op_code[6]
+            strr+='00'
+            strr+=registers[name1][1]
+            strr+=registers[name2][1]
+            strr+=registers[name3][1]
+            countt=15
+            list_assembly_code.append(strr)
+            strr=''
+            continue
+        elif i[0]=='hlt' or i[a]=='hlt':
+            count_instruction_code+=1
+            strr+=op_code[19]
+            strr+='00000000000'
+            list_assembly_code.append(strr)
+            strr=''
+            flag=True
+            continue
+        elif i[0]=='sub' or i[a]=='sub':
+            if i[0]=='sub':
+                count=0
+            else :
+                count=1
+            try:
+                name1=i[1+count]
+                name2=i[2+count]
+                name3=i[3+count]
+            except IndexError:
+                print("invalid statement")
+                #quit()
+            name1=i[1+count]
+            name2=i[2+count]
+            name3=i[3+count]
+            if name1 not in registers or name2 not in registers or name3 not in registers:
+                print("invalid register")
+            strr+=op_code[1]
+            strr+='00'
+            strr+=registers[name1][1]
+            strr+=registers[name2][1]
+            strr+=registers[name3][1]
+            list_assembly_code.append(strr)
+            strr=''
+            continue
+        elif i[0]=='ld' or i[a]=='ld':
+            if i[0]=='ld':
+                count=0
+            else:
+                count=1
+            try:
+                name1=i[1+count]
+                name2=i[2+count]
+            except IndexError:
+                print("invalid statement")
+                #quit()
+            if i[1+count] not in registers:
+                print("invalid register")
+            name1=i[1+count]
+            name2=i[2+count]
+            strr+=op_code[4]
+            strr+='0'
+            strr+=registers[name1][1]
+            if name2 in code_variables:
+                strr+=code_variables[name2]
+            else :
+                strr+=list_instruction_code[countu]
+                countu+=1
+            list_assembly_code.append(strr)
+            strr=''
+            continue
+        elif i[0]=='div' or i[a]=='div':
+            if i[0]=='div':
+                count=0
+            else :
+                count=1
+            try:
+                name1=i[1+count]
+                name2=i[2+count]
+            except IndexError:
+                print("invalid statement")
+            if i[1+count] not in registers or i[2+count] not in registers:
+                print("invalid register")
+            count_instruction_code+=1
+            name1=i[1+count]
+            name2=i[2+count]
+            strr+=op_code[7]
+            strr+='00000'
+            strr+=registers[name1][1]
+            strr+=registers[name2][1]
+            list_assembly_code.append(strr)
+            strr=''
+            if registers[name2][0].count==16:
+                registers['FLAG'][0][-4]=1
+            continue
+        elif i[0]=='rs' or i[a]=='rs':
+            if i[0]=='rs':
+                count=0
+            else :
+                count=1
+            try:
+                name1=i[1+count]
+            except IndexError:
+                print("invalid statement")
+            if i[1+count] not in registers:
+                print("invalid register")
+            name1=i[1+count]
+            strr+=op_code[8]
+            strr+='0'
+            strr+=registers[name1][1]
+            a=decimal_to_binary(i[2+count][1:])
+            a=str(a)
+            for i in range(7-len(a)):
+                strr+='0'
+            strr+=a
+            list_assembly_code.append(strr)
+            strr=''
+            continue
+        elif i[0]=='ls' or i[a]=='ls':
+                if i[0]=='ls':
+                    count=0
+                else :
+                    count=1
+                try:
+                    name1=i[1+count]
+                except IndexError:
+                    print("invalid statement")
+                if i[1+count] not in registers:
+                    print("invalid register")
+                name1=i[1+count]
+                strr+=op_code[9]
+                strr+='0'
+                a=decimal_to_binary(i[2][1:])
+                a=str(a)
+                for i in range(7-len(a)):
+                    strr+='0'
+                strr+=a
+                list_assembly_code.append(strr)
+                strr=''
+                continue
+        elif i[0]=='xor' or i[a]=='xor':
+            if i[0]=='xor':
+                count=0
+            else:
+                count=1
+            try:
+                name1=i[1+count]
+                name2=i[2+count]
+                name3=i[3+count]
+            except IndexError:
+                print("invalid statement")
+            if i[1+count] not in registers or i[2+count] not in registers or i[3+count] not in registers:
+                print("invalid registers")
+            count_instruction_code+=1
+            name1=i[1+count]
+            name2=i[2+count]
+            name3=i[3+count]
+            strr+=op_code[10]
+            strr+='00'
+            strr+=registers[name1][1]
+            strr+=registers[name2][1]
+            strr+=registers[name3][1]
+            list_assembly_code.append(strr)
+            strr=''
+            continue
+        elif i[0]=='or' or i[a]=='or':
+            if i[0]=='or':
+                count=0
+            else :
+                count=1
+            try:
+                name1=i[1+count]
+                name2=i[2+count]
+                name3=i[3+count]
+            except IndexError:
+                print("invalid statement")
+            if i[1+count] not in registers or i[2+count] not in registers or i[3+count] not in registers:
+                print("invalid registers")
+            count_instruction_code+=1
+            name1=i[1+count]
+            name2=i[2+count]
+            name3=i[3+count]
+            strr+=op_code[11]
+            strr+='00'
+            strr+=registers[name1][1]
+            strr+=registers[name2][1]
+            strr+=registers[name3][1]
+            list_assembly_code.append(strr)
+            strr=''
+            continue
+        elif i[0]=='and' or i[a]=='and':
+            if i[0]=='and':
+                count=0
+            else :
+                count=1
+            try:
+                name1=i[1+count]
+                name2=i[2+count]
+                name3=i[3+count]
+            except IndexError:
+                print("invalid statement")
+            if i[1+count] not in registers or i[2+count] not in registers or i[3+count] not in registers:
+                print("invalid registers")
+            count_instruction_code+=1
+            name1=i[1+count]
+            name2=i[2+count]
+            name3=i[3+count]
+            strr+=op_code[12]
+            strr+='00'
+            strr+=registers[name1][1]
+            strr+=registers[name2][1]
+            strr+=registers[name3][1]
+            list_assembly_code.append(strr)
+            strr=''
+            continue
+        elif i[0]=='not' or i[a]=='not':
+            if i[0]=='not':
+                count=0
+            else :
+                count=1
+            try:
+                name1=i[1+count]
+                name2=i[2+count]
+            except IndexError:
+                print("invalid statement")
+            name1=i[1+count]
+            name2=i[2+count]
+            if i[1+count] not in registers or i[2+count] not in registers:
+                print("invalid register")
+            count_instruction_code+=1
+            strr+=op_code[13]
+            strr+='00000'
+            strr+=registers[name1][1]
+            strr+=registers[name2][1]
+            list_assembly_code.append(strr)
+            strr=''
+            continue
+        elif i[0]=='cmp' or i[a]=='cmp':
+            if i[0]=='cmp':
+                count=0
+            else :
+                count=1
+            try:
+                name1=i[1+count]
+                name2=i[2+count]
+            except IndexError:
+                print("invalid statement")
+            try:
+                name3=i[3+count]
+                print(f"line{lines}:cannot compare more than two registers")
+                continue
+            except IndexError:
+                pass
+
+            name1=i[1+count]
+            name2=i[2+count]
+            if i[1+count] not in registers or i[2+count] not in registers:
+                print("invalid registers")
+            count_instruction_code+=1
+            strr+=op_code[14]
+            strr+='00000'
+            strr+=registers[name1][1]
+            strr+=registers[name2][1]
+            list_assembly_code.append(strr)
+            strr=''
+            continue
+        elif i[0]=='jmp' or i[a]=='jmp':
+            if i[0]=='jmp':
+                count=0
+            else :
+                count=1
+            try:
+                name1=i[1+count]
+            except IndexError:
+                print("invalid statement")
+            if i[1+count] not in listtt:
+                print(f"line{lines} : no label {i[1+count][:]} exists")
+                continue
+            name1=i[1+count]
+            count_instruction_code+=1
+            strr+=op_code[15]
+            strr+='0000'
+            strr+=lust[i[1]]
+            list_assembly_code.append(strr)
+            strr=''
+            store=name1+':'
+            continue
+        elif i[0]=='jlt' or i[a]=='jlt':
+            if i[0]=='jlt':
+                count=0
+            else :
+                count=1
+            try:
+                name1=i[1+count]
+            except IndexError:
+                print("invalid statement")
+            if i[1+count] not in listtt:
+                print(f"line{lines}:no label {i[1+count][:]}")
+                continue
+            name1=i[1+count]
+            count_instruction_code+=1
+            strr+=op_code[16]
+            strr+='0000'
+            strr+=lust[name1]
+            list_assembly_code.append(strr)
+            strr=''
+            continue
+        elif i[0]=='jgt' or i[a]=='jgt':
+            if i[0]=='jgt':
+                count=0
+            else :
+                count=1
+                
+            try:
+                name1=i[1+count]
+            except IndexError:
+                print("invalid statement")
+            if i[1+count] not in listtt:
+                print(f"line{lines} :not label {i[1+count][:]}")
+                continue
+            name1=i[1+count]
+            count_instruction_code+=1
+            strr+=op_code[17]
+            strr+='0000'
+            strr+=lust[name1]
+            list_assembly_code.append(strr)
+            strr=''
+            continue
+        elif i[0]=='je' or i[a]=='je':
+            if i[0]=='je':
+                count=0
+            else :
+                count=1
+            try:
+                name1=i[1+count]
+            except IndexError:
+                print("invalid statement")
+                quit()
+            if i[1+count] not in listtt:
+                print(f"line{lines}:no label {i[1+count][:]}")
+                continue
+            name1=i[1+count]
+            count_instruction_code+=1
+            strr+=op_code[18]
+            strr+='0000'
+            strr+=lust[name1]
+            list_assembly_code.append(strr)
+            strr=''
+            continue
+        elif i[0]=='addf' or i[a]=='addf':
+            if i[0]=='addf':
+                count=0
+            else:
+                count=1
+            try:
+                name1=i[1+count]
+                name2=i[2+count]
+                name3=i[3+count]
+            except :
+                print(f"line{lines} : 3 arguments are required")
+            strr+=op_code[20]
+            strr+='00'
+            strr+=registers[name1][1]
+            strr+=registers[name2][1]
+            strr+=registers[name3][1]
+            list_assembly_code.append(strr)
+            strr=''
+            continue
+        elif i[0]=='subf' or i[a]=='subf':
+            if i[0]=='subf':
+                count=0
+            else:
+                count=1
+            try:
+                name1=i[1+count]
+                name2=i[2+count]
+                name3=i[3+count]
+            except:
+                print(f"line{lines}")
+            strr+=op_code[21]
+            strr+='00'
+            strr+=registers[name1][1]
+            strr+=registers[name2][1]
+            strr+=registers[name3][1]
+            list_assembly_code.append(strr)
+            strr=''
+            continue
+        elif i[0]=='movf' or i[a]=='movf':
+            if i[0]=='movf':
+                count=0
+            else:
+                count=1
+            try:
+                name1=i[1+count]
+                val=i[2+count][1:]
+            except:
+                print(f"line{lines}: invalid register")
+            wh,dec=val.split(".")
+            wh=int(wh)
+            if wh>7 or wh<0:
+                print(f"line{lines} : invalid value")
+                continue
+            a=decimal_to_binary1(val)
+            count_deci=-1
+            for i in a:
+                if i!='.':
+                    count_deci+=1
+                else:
+                    break
+            b=bin(3+count_deci)[2:]
+            st=''
+            countu=0
+            for i in range(1,6):
+                if a[i+countu]!='.':
+                    st+=a[i+countu]
+                else:
+                    st+=a[i+1]
+                    countu+=1
+            strr+=op_code[-1]
+            strr+=registers[name1][1]
+            strr+=b
+            strr+=st
+            list_assembly_code.append(strr)
+            strr=''
+            continue
+        print(f"line{lines} :invalid operand")
+if flag==False:
+    print(f"line{lines} :no halt statement")
+with open("assembly_output.txt", "w") as file:
+    for i in list_assembly_code:
+        file.write(str(i) + "\n") 
