@@ -1,0 +1,1 @@
+The SimpleShell project acts as a Unix-like command-line interpreter. It iteratively processes and executes user commands, featuring pipeline implementation and support for creating daemon processes. The focus is on managing system calls related to process handling without implementing the Unix commands themselves
