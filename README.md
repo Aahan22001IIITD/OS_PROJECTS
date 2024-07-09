@@ -7,7 +7,6 @@
 
 ### Software Requirements:
 - C compiler and GNU make.
-- You must do version controlling of all your code using GitHub. You should only use a PRIVATE repository. If you are found to be using a PUBLIC access repository, then it will be considered plagiarism. NOTE that TAs will check your GitHub repository during the demo.
 
 ## SimpleShell Details
 
